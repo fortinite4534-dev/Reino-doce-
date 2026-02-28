@@ -12,6 +12,7 @@ let martelo = 0
 let bomba = 0
 let troca = 0
 
+let modoItem = null
 let selected = null
 let tiles = []
 
@@ -49,6 +50,27 @@ function createBoard() {
 }
 
 function handleClick() {
+
+    if (modoItem === "martelo") {
+        this.style.backgroundImage = ""
+        martelo--
+        modoItem = null
+        atualizarUI()
+        return
+    }
+
+    if (modoItem === "bomba") {
+        let id = parseInt(this.id)
+        let area = [id, id+1, id-1, id+8, id-8]
+        area.forEach(i=>{
+            if(tiles[i]) tiles[i].style.backgroundImage=""
+        })
+        bomba--
+        modoItem = null
+        atualizarUI()
+        return
+    }
+
     if (!selected) {
         selected = this
         this.style.border = "2px solid yellow"
@@ -137,6 +159,42 @@ setInterval(() => {
     dropCandies()
 }, 200)
 
+/* ===== LOJA VISUAL ===== */
+
+function abrirLoja() {
+    document.getElementById("loja").style.display = "block"
+}
+
+function fecharLoja() {
+    document.getElementById("loja").style.display = "none"
+}
+
+function comprar(item) {
+
+    if (item === "martelo" && gold >= 200) {
+        gold -= 200
+        martelo++
+    }
+
+    if (item === "bomba" && gold >= 300) {
+        gold -= 300
+        bomba++
+    }
+
+    if (item === "troca" && gold >= 150) {
+        gold -= 150
+        troca++
+    }
+
+    atualizarUI()
+    salvar()
+}
+
+function usar(item) {
+    if (item === "martelo" && martelo > 0) modoItem = "martelo"
+    if (item === "bomba" && bomba > 0) modoItem = "bomba"
+}
+
 function openCode() {
     const code = prompt("Digite o código secreto:")
     if (code === "Pedro123") {
@@ -147,32 +205,6 @@ function openCode() {
         atualizarUI()
         alert("Modo Supremo ativado")
     }
-}
-
-/* ===== LOJA ===== */
-
-function abrirLoja() {
-    let escolha = prompt(
-        "LOJA\n1 - Martelo (200 ouro)\n2 - Bomba (300 ouro)\n3 - Troca (150 ouro)"
-    )
-
-    if (escolha == 1 && gold >= 200) {
-        gold -= 200
-        martelo++
-    }
-    else if (escolha == 2 && gold >= 300) {
-        gold -= 300
-        bomba++
-    }
-    else if (escolha == 3 && gold >= 150) {
-        gold -= 150
-        troca++
-    } else {
-        alert("Ouro insuficiente")
-    }
-
-    salvar()
-    atualizarUI()
 }
 
 createBoard()
