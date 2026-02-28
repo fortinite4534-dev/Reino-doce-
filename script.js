@@ -4,7 +4,14 @@ const scoreDisplay = document.getElementById("score")
 const goldDisplay = document.getElementById("gold")
 
 let score = 0
-let gold = 0
+let gold = parseInt(localStorage.getItem("gold")) || 0
+let faseAtual = parseInt(localStorage.getItem("fase")) || 1
+let movimentos = 20
+
+let martelo = 0
+let bomba = 0
+let troca = 0
+
 let selected = null
 let tiles = []
 
@@ -17,7 +24,15 @@ const candies = [
     "images/pirulito.png"
 ]
 
+function salvar() {
+    localStorage.setItem("gold", gold)
+    localStorage.setItem("fase", faseAtual)
+}
+
 function createBoard() {
+    board.innerHTML = ""
+    tiles = []
+
     for (let i = 0; i < width * width; i++) {
         const tile = document.createElement("div")
         tile.setAttribute("id", i)
@@ -41,6 +56,8 @@ function handleClick() {
         swapTiles(selected, this)
         selected.style.border = "none"
         selected = null
+        movimentos--
+        verificarFim()
     }
 }
 
@@ -92,6 +109,29 @@ function dropCandies() {
     }
 }
 
+function verificarFim() {
+    if (movimentos <= 0) {
+        if (score >= 1000 + (faseAtual * 200)) {
+            gold += 100 + (faseAtual * 20)
+            faseAtual++
+            alert("Fase concluída!")
+        } else {
+            alert("Você perdeu!")
+        }
+
+        score = 0
+        movimentos = 20
+        salvar()
+        atualizarUI()
+        createBoard()
+    }
+}
+
+function atualizarUI() {
+    scoreDisplay.textContent = score
+    goldDisplay.textContent = gold
+}
+
 setInterval(() => {
     checkMatches()
     dropCandies()
@@ -101,9 +141,39 @@ function openCode() {
     const code = prompt("Digite o código secreto:")
     if (code === "Pedro123") {
         gold = 999999
-        goldDisplay.textContent = gold
+        martelo = 99
+        bomba = 99
+        troca = 99
+        atualizarUI()
         alert("Modo Supremo ativado")
     }
 }
 
+/* ===== LOJA ===== */
+
+function abrirLoja() {
+    let escolha = prompt(
+        "LOJA\n1 - Martelo (200 ouro)\n2 - Bomba (300 ouro)\n3 - Troca (150 ouro)"
+    )
+
+    if (escolha == 1 && gold >= 200) {
+        gold -= 200
+        martelo++
+    }
+    else if (escolha == 2 && gold >= 300) {
+        gold -= 300
+        bomba++
+    }
+    else if (escolha == 3 && gold >= 150) {
+        gold -= 150
+        troca++
+    } else {
+        alert("Ouro insuficiente")
+    }
+
+    salvar()
+    atualizarUI()
+}
+
 createBoard()
+atualizarUI()
