@@ -1,0 +1,29 @@
+body {
+    font-family: Arial, sans-serif;
+    background: #1e1e1e;
+    color: white;
+    text-align: center;
+}
+
+#game {
+    width: 512px;
+    height: 512px;
+    margin: 20px auto;
+    display: grid;
+    grid-template-columns: repeat(8, 64px);
+    grid-template-rows: repeat(8, 64px);
+    gap: 2px;
+}
+
+.tile {
+    width: 64px;
+    height: 64px;
+    background-size: cover;
+    cursor: pointer;
+}
+
+button {
+    padding: 8px 15px;
+    margin-top: 10px;
+    font-size: 14px;
+}
