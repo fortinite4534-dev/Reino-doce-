@@ -208,4 +208,7 @@ function openCode() {
 }
 
 createBoard()
-atualizarUI()
+atualizarUI)
+function iniciarFase() {
+    alert("Fase 1 iniciada!");
+}
