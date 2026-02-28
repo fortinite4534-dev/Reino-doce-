@@ -27,3 +27,11 @@ button {
     margin-top: 10px;
     font-size: 14px;
 }
+.loja {
+    display: none;
+    background: #333;
+    padding: 20px;
+    margin: 20px auto;
+    width: 300px;
+    border-radius: 10px;
+}
