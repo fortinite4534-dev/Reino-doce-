@@ -23,4 +23,18 @@
 </html>
 <script src="fases.js"></script>
 <script src="script.js"></script>
-<button onclick="abrirLoja()">Loja</button>
+<button onclick="abrirLoja()">Loja</button><button onclick="abrirLoja()">Loja</button>
+
+<div id="loja" class="loja">
+  <h2>Loja</h2>
+  <p>Martelo (200)</p>
+  <button onclick="comprar('martelo')">Comprar</button>
+  <button onclick="usar('martelo')">Usar</button>
+
+  <p>Bomba (300)</p>
+  <button onclick="comprar('bomba')">Comprar</button>
+  <button onclick="usar('bomba')">Usar</button>
+
+  <br><br>
+  <button onclick="fecharLoja()">Fechar</button>
+</div>
